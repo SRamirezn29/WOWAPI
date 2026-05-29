@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WoW Pro — Base de Datos de Azeroth</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  </head>
+<body>
+
+<!-- ════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════ -->
+<nav class="navbar navbar-expand-lg wow-nav fixed-top">
+  <div class="container-xl">
+
+    <a class="navbar-brand" href="#">⚔ WoW Pro</a>
+
+    <button class="navbar-toggler border-secondary" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navMain" aria-label="Menú">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMain">
+
+      <!-- Nav links -->
+      <ul class="navbar-nav me-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="#" data-filter="mapas">Mapas</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" data-filter="armas">Armas</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" data-filter="heroes">Héroes</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" data-filter="objetos">Objetos</a></li>
+      </ul>
+
+      <!-- Search bar -->
+      <form class="nav-search d-flex me-3 my-2 my-lg-0" id="nav-search-form">
+        <div class="input-group input-group-sm">
+          <input type="text" id="nav-search-input" class="form-control"
+                 placeholder="Buscar ítem..." autocomplete="off" />
+          <button class="btn btn-warning btn-sm px-3" type="submit">🔍</button>
+        </div>
+      </form>
+
+      <!-- Auth buttons -->
+      <div class="d-flex gap-2 my-2 my-lg-0">
+        <button id="register-modal-trigger" class="btn btn-outline-warning btn-sm fw-semibold">
+          Crear Cuenta
+        </button>
+        <button id="login-modal-trigger" class="btn btn-primary btn-sm fw-semibold">
+          Iniciar Sesión
+        </button>
+        <button id="logout-btn" class="btn btn-outline-secondary btn-sm d-none">
+          Cerrar Sesión
+        </button>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+<!-- spacer for fixed navbar -->
+<div style="height: 58px;"></div>
+
+
+<!-- ════════════════════════════════════════
+     HERO CAROUSEL
+════════════════════════════════════════ -->
+<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5500">
+
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+  </div>
+
+  <div class="carousel-inner">
+
+    <!-- Slide 1 -->
+    <div class="carousel-item active">
+      <div class="hero-slide slide-purple">
+        <img class="slide-bg-icon"
+             src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_11.jpg"
+             onerror="this.style.display='none'" alt="">
+        <div class="slide-content">
+          <span class="slide-badge">Legendario</span>
+          <h2 class="slide-title">Ítems Legendarios<br>de Azeroth</h2>
+          <p class="slide-subtitle">Explora las armas y tesoros más icónicos<br>jamás forjados en el mundo de Warcraft.</p>
+          <a href="#section-popular" class="btn btn-warning fw-bold px-4">Explorar Ítems</a>
+        </div>
+        <div class="slide-icon">
+          <img src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_11.jpg"
+               onerror="this.style.opacity='0'" alt="Thunderfury">
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="carousel-item">
+      <div class="hero-slide slide-blue">
+        <img class="slide-bg-icon"
+             src="https://wow.zamimg.com/images/wow/icons/large/inv_axe_113.jpg"
+             onerror="this.style.display='none'" alt="">
+        <div class="slide-content">
+          <span class="slide-badge blue">Arsenal</span>
+          <h2 class="slide-title">Tu Arsenal<br>Personal</h2>
+          <p class="slide-subtitle">Guarda y gestiona todos tus ítems favoritos<br>en tu inventario personal de WoW Pro.</p>
+          <a href="#section-dashboard" class="btn btn-info fw-bold px-4 text-dark">Ver Mi Dashboard</a>
+        </div>
+        <div class="slide-icon">
+          <img src="https://wow.zamimg.com/images/wow/icons/large/inv_axe_113.jpg"
+               onerror="this.style.opacity='0'" alt="Shadowmourne">
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="carousel-item">
+      <div class="hero-slide slide-red">
+        <img class="slide-bg-icon"
+             src="https://wow.zamimg.com/images/wow/icons/large/inv_staff_06.jpg"
+             onerror="this.style.display='none'" alt="">
+        <div class="slide-content">
+          <span class="slide-badge red">API Blizzard</span>
+          <h2 class="slide-title">Busca en la Base<br>de Datos Oficial</h2>
+          <p class="slide-subtitle">Accede a cualquier ítem directamente desde<br>la API oficial de Blizzard Entertainment.</p>
+          <a href="#section-dashboard" class="btn btn-danger fw-bold px-4">Buscar Ahora</a>
+        </div>
+        <div class="slide-icon">
+          <img src="https://wow.zamimg.com/images/wow/icons/large/inv_staff_06.jpg"
+               onerror="this.style.opacity='0'" alt="Benediction">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     POPULAR ITEMS
+════════════════════════════════════════ -->
+<section id="section-popular" style="background: #0a0a0a; padding: 5rem 0;">
+  <div class="container-xl">
+
+    <div class="text-center mb-4">
+      <div class="section-label">Colección</div>
+      <h2 class="section-title">Ítems Destacados</h2>
+      <p class="section-sub">Los objetos más icónicos y codiciados de Azeroth</p>
+    </div>
+
+    <!-- Category tabs -->
+    <div class="cat-tabs" id="cat-tabs">
+      <button class="cat-tab active" data-cat="todos">Todos</button>
+      <button class="cat-tab" data-cat="armas">⚔ Armas</button>
+      <button class="cat-tab" data-cat="heroes">🦸 Héroes</button>
+      <button class="cat-tab" data-cat="objetos">🎒 Objetos</button>
+      <button class="cat-tab" data-cat="mapas">🗺 Mapas</button>
+    </div>
+
+    <!-- Items grid -->
+    <div class="row g-3" id="popular-items-grid"></div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     DASHBOARD
+════════════════════════════════════════ -->
+<section id="section-dashboard" style="background: #0d0d0d; padding: 5rem 0;">
+  <div class="container-xl">
+
+    <div class="text-center mb-4">
+      <div class="section-label">Mi Espacio</div>
+      <h2 class="section-title">Dashboard Personal</h2>
+      <p class="section-sub">Busca ítems en la API de Blizzard y gestiona tu inventario</p>
+    </div>
+
+    <!-- Guest banner -->
+    <div id="guest-banner">
+      Explora la app libremente.
+      <a href="#" id="guest-login-link">Inicia sesión</a>
+      para buscar ítems y gestionar tu inventario personal.
+    </div>
+
+    <div class="row g-4">
+
+      <!-- ── Buscador ── -->
+      <div class="col-12 col-lg-6">
+        <div class="panel">
+          <div class="panel-label">Buscar ítem</div>
+
+          <div class="input-group">
+            <input type="text" id="search-input"
+                   class="form-control bg-dark border-secondary text-light"
+                   placeholder="Nombre del ítem (ej: Thunderfury)" />
+            <button id="search-btn" class="btn btn-warning fw-semibold px-3">
+              <span id="search-spinner" class="spinner-border spinner-inline me-1 d-none" role="status"></span>
+              Buscar
+            </button>
+          </div>
+
+          <div id="search-error" class="alert alert-danger py-2 small mt-2 d-none" role="alert"></div>
+
+          <!-- Resultado -->
+          <div id="item-result-card">
+            <div class="d-flex align-items-start justify-content-between">
+              <div>
+                <div class="item-name" id="result-name"></div>
+                <div class="item-meta">ID: <span id="result-id"></span></div>
+              </div>
+              <button id="save-btn" class="btn btn-success btn-sm ms-3 fw-semibold">
+                <span id="save-spinner" class="spinner-border spinner-inline me-1 d-none" role="status"></span>
+                Guardar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Inventario ── -->
+      <div class="col-12 col-lg-6">
+        <div class="panel">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div class="panel-label mb-0">Mi inventario</div>
+            <span id="inventory-count" class="badge bg-secondary d-none">0</span>
+          </div>
+
+          <div id="inventory-guest">
+            No has iniciado sesión.<br>
+            <a href="#" id="inventory-login-link">Inicia sesión</a> para ver tu inventario.
+          </div>
+          <div id="inventory-empty" class="d-none">No tienes ítems guardados aún.</div>
+          <ul id="inventory-list"></ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer class="wow-footer">
+  <div class="container-xl py-5">
+    <div class="row g-4">
+
+      <!-- Brand -->
+      <div class="col-12 col-md-4">
+        <div class="footer-brand mb-2">⚔ WoW Pro</div>
+        <p class="text-secondary small" style="line-height: 1.6;">
+          Tu portal para explorar la base de datos de ítems de
+          World of Warcraft, potenciado por la API oficial de Blizzard Entertainment.
+        </p>
+      </div>
+
+      <!-- Explorar -->
+      <div class="col-6 col-md-2">
+        <div class="footer-heading">Explorar</div>
+        <div class="footer-links">
+          <a href="#" data-filter="mapas">Mapas</a>
+          <a href="#" data-filter="armas">Armas</a>
+          <a href="#" data-filter="heroes">Héroes</a>
+          <a href="#" data-filter="objetos">Objetos</a>
+        </div>
+      </div>
+
+      <!-- Cuenta -->
+      <div class="col-6 col-md-2">
+        <div class="footer-heading">Cuenta</div>
+        <div class="footer-links">
+          <a href="#" id="footer-login-link">Iniciar Sesión</a>
+          <a href="#" id="footer-register-link">Crear Cuenta</a>
+          <a href="#section-dashboard">Mi Inventario</a>
+          <a href="#section-popular">Ítems Populares</a>
+        </div>
+      </div>
+
+      <!-- Acerca de -->
+      <div class="col-12 col-md-4">
+        <div class="footer-heading">Acerca de</div>
+        <p class="text-secondary small" style="line-height: 1.6;">
+          Los datos de los ítems provienen directamente de la API oficial de Blizzard Entertainment.
+          Las imágenes son propiedad de Blizzard Entertainment, Inc.
+        </p>
+        <p class="text-secondary small" style="line-height: 1.6;">
+          WoW Pro no está afiliado ni respaldado por Blizzard Entertainment.
+        </p>
+      </div>
+
+    </div>
+
+    <hr style="border-color: #181818; margin-top: 2.5rem; margin-bottom: 1.25rem;">
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <span class="text-secondary" style="font-size: 0.78rem;">© 2025 WoW Pro Dashboard. Todos los derechos reservados.</span>
+      <span class="text-secondary" style="font-size: 0.78rem;">World of Warcraft® es marca registrada de Blizzard Entertainment, Inc.</span>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ════════════════════════════════════════
+     MODAL — LOGIN
+════════════════════════════════════════ -->
+<div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="login-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 420px;">
+    <div class="modal-content">
+
+      <div class="modal-header border-secondary pb-2">
+        <div>
+          <h5 class="modal-title fw-bold text-warning mb-0" id="login-modal-title">⚔ WoW Pro</h5>
+          <div class="text-secondary" style="font-size: 0.78rem;" id="modal-subtitle">Inicia sesión para continuar</div>
+        </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body pt-3">
+        <div id="modal-hint" class="alert alert-warning py-2 small d-none" role="alert"></div>
+
+        <div class="mb-3">
+          <label for="login-email" class="form-label small">Correo electrónico</label>
+          <input type="email" id="login-email"
+                 class="form-control bg-dark border-secondary text-light"
+                 placeholder="tu@correo.com" autocomplete="username" />
+        </div>
+
+        <div class="mb-3">
+          <label for="login-password" class="form-label small">Contraseña</label>
+          <input type="password" id="login-password"
+                 class="form-control bg-dark border-secondary text-light"
+                 placeholder="••••••••" autocomplete="current-password" />
+        </div>
+
+        <div id="login-error" class="alert alert-danger py-2 small d-none" role="alert"></div>
+
+        <button id="login-btn" class="btn btn-primary w-100 fw-semibold mt-1">
+          <span id="login-spinner" class="spinner-border spinner-inline me-2 d-none" role="status"></span>
+          Iniciar Sesión
+        </button>
+
+        <div class="text-center mt-3">
+          <small class="text-secondary">
+            ¿No tienes cuenta?
+            <a href="#" class="text-warning text-decoration-none fw-semibold" id="switch-to-register">Crear cuenta gratis</a>
+          </small>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     MODAL — REGISTRO
+════════════════════════════════════════ -->
+<div class="modal fade" id="register-modal" tabindex="-1" aria-labelledby="register-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 420px;">
+    <div class="modal-content">
+
+      <div class="modal-header border-secondary pb-2">
+        <div>
+          <h5 class="modal-title fw-bold text-warning mb-0" id="register-modal-title">⚔ Crear Cuenta</h5>
+          <div class="text-secondary" style="font-size: 0.78rem;">Únete a WoW Pro gratis</div>
+        </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body pt-3">
+        <div class="mb-3">
+          <label for="reg-name" class="form-label small">Nombre de aventurero</label>
+          <input type="text" id="reg-name"
+                 class="form-control bg-dark border-secondary text-light"
+                 placeholder="Tu nombre en Azeroth" autocomplete="name" />
+        </div>
+
+        <div class="mb-3">
+          <label for="reg-email" class="form-label small">Correo electrónico</label>
+          <input type="email" id="reg-email"
+                 class="form-control bg-dark border-secondary text-light"
+                 placeholder="tu@correo.com" autocomplete="email" />
+        </div>
+
+        <div class="mb-3">
+          <label for="reg-password" class="form-label small">Contraseña</label>
+          <input type="password" id="reg-password"
+                 class="form-control bg-dark border-secondary text-light"
+                 placeholder="Mínimo 6 caracteres" autocomplete="new-password" />
+        </div>
+
+        <div class="mb-3">
+          <label for="reg-confirm" class="form-label small">Confirmar contraseña</label>
+          <input type="password" id="reg-confirm"
+                 class="form-control bg-dark border-secondary text-light"
+                 placeholder="Repite tu contraseña" autocomplete="new-password" />
+        </div>
+
+        <div id="register-error"   class="alert alert-danger  py-2 small d-none" role="alert"></div>
+        <div id="register-success" class="alert alert-success py-2 small d-none" role="alert"></div>
+
+        <button id="register-btn" class="btn btn-warning w-100 fw-bold mt-1 text-dark">
+          <span id="register-spinner" class="spinner-border spinner-inline me-2 d-none" role="status"></span>
+          Crear Cuenta
+        </button>
+
+        <div class="text-center mt-3">
+          <small class="text-secondary">
+            ¿Ya tienes cuenta?
+            <a href="#" class="text-warning text-decoration-none fw-semibold" id="switch-to-login">Iniciar sesión</a>
+          </small>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

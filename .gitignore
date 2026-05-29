@@ -1,0 +1,35 @@
+# .NET build output
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.userprefs
+
+# Publish output
+publish/
+out/
+
+# NuGet packages
+*.nupkg
+packages/
+.nuget/
+
+# Secrets - NEVER subir a GitHub
+# El archivo Development tiene credenciales reales de Blizzard y JWT
+appsettings.Development.json
+appsettings.Production.json
+appsettings.Secrets.json
+
+# Node / npm
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Rider / JetBrains
+.idea/
+
+# Logs
+*.log

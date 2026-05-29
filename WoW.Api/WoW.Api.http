@@ -1,0 +1,11 @@
+@WoW.Api_HostAddress = http://localhost:5001
+
+GET {{WoW.Api_HostAddress}}/openapi/v1.json
+Accept: application/json
+
+###
+
+GET {{WoW.Api_HostAddress}}/api/auth/token
+Accept: application/json
+
+###

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="WoW.Api/WoW.Api.csproj" />
+  <Project Path="WoW.Application/WoW.Application.csproj" />
+  <Project Path="WoW.Domain/WoW.Domain.csproj" />
+  <Project Path="WoW.Infrastructure/WoW.Infrastructure.csproj" />
+</Solution>

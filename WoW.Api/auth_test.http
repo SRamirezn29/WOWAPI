@@ -1,0 +1,19 @@
+POST http://localhost:5001/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "Arthas",
+  "email": "[EMAIL_ADDRESS]",
+  "password": "[PASSWORD]"
+}
+
+
+
+
+POST http://localhost:5001/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "[EMAIL_ADDRESS]",
+  "password": "[PASSWORD]"
+}

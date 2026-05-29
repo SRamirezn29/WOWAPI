@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WoW Pro — Base de Datos de Azeroth</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════════════════════ -->
+<nav class="wow-nav navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#" data-view="home">WoW Pro</a>
+
+    <button class="navbar-toggler border-0" type="button"
+            data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav me-auto gap-1 ms-2">
+        <li class="nav-item"><a class="nav-link active" href="#" data-view="home">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" data-view="mapas">Mapas</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" data-view="armas">Armas</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" data-view="heroes">Heroes</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" data-view="objetos">Objetos</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" data-view="razas">Razas</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" data-view="clases">Clases</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" data-view="tropas">Tropas</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" data-view="enemigos">Enemigos</a></li>
+      </ul>
+
+      <form class="d-flex nav-search me-3" onsubmit="navSearch(event)">
+        <input id="nav-search-input" class="form-control rounded-start" type="search"
+               placeholder="Buscar item..." autocomplete="off" />
+        <button class="btn-search" type="submit">Buscar</button>
+      </form>
+
+      <div id="auth-guest" class="d-flex gap-2">
+        <button class="btn-login" onclick="openLoginModal()">Iniciar sesion</button>
+        <button class="btn-login" style="background:rgba(255,193,7,.1)" onclick="openRegisterModal()">Registrarse</button>
+      </div>
+      <div id="auth-logged" class="d-flex align-items-center gap-3 d-none">
+        <span class="user-info"><span class="user-dot"></span><span id="user-label"></span></span>
+        <button class="btn-logout" onclick="handleLogout()">Cerrar sesion</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════
+     VIEW: HOME
+════════════════════════════════════════════════════════════ -->
+<section id="view-home" class="view-section active">
+
+  <!-- Carousel -->
+  <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
+      <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
+      <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://bnetcmsus-a.akamaihd.net/cms/blog_header/ad/ADWW1OCC2S3H1558360786571.jpg"
+             onerror="this.style.display='none'" alt="Azeroth" />
+        <div class="carousel-caption d-flex flex-column align-items-start">
+          <h2>El Mundo de Warcraft</h2>
+          <p>Explora Azeroth, un planeta vasto con continentes llenos de historia, conflicto y maravillas. Desde los helados picos de Rasganorte hasta las junglas de Pandaria.</p>
+          <button class="carousel-btn" data-carousel-goto="mapas">Explorar Mapas</button>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://bnetcmsus-a.akamaihd.net/cms/blog_header/q4/Q4BHKRFZAGYA1574894700701.jpg"
+             onerror="this.style.display='none'" alt="Heroes" />
+        <div class="carousel-caption d-flex flex-column align-items-start">
+          <h2>Leyendas de Azeroth</h2>
+          <p>Desde el tragico principe Arthas hasta el incansable Thrall. Los heroes y villanos de WoW han forjado la historia de un mundo entero con sus elecciones.</p>
+          <button class="carousel-btn" data-carousel-goto="heroes">Ver Heroes</button>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://bnetcmsus-a.akamaihd.net/cms/blog_header/f2/F2E55E2LRN4A1553733512307.jpg"
+             onerror="this.style.display='none'" alt="Dragonflight" />
+        <div class="carousel-caption d-flex flex-column align-items-start">
+          <h2>Dragonflight</h2>
+          <p>Las Islas del Dragon han emergido, convocando a heroes de todo Azeroth. Los Draktyr despiertan y los cinco Aspectos Draconicos reclaman su hogar ancestral.</p>
+          <button class="carousel-btn" data-carousel-goto="mapas">Ver Dragon Isles</button>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+
+  <!-- Quick-link category cards -->
+  <div class="container quick-links" id="home-categories">
+    <div class="row g-3 justify-content-center">
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+        <div class="ql-card" data-goto="mapas">
+          <div class="ql-title">Mapas</div>
+          <div class="ql-sub">13 continentes</div>
+        </div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+        <div class="ql-card" data-goto="heroes">
+          <div class="ql-title">Heroes</div>
+          <div class="ql-sub">14 personajes</div>
+        </div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+        <div class="ql-card" data-goto="armas">
+          <div class="ql-title">Armas</div>
+          <div class="ql-sub">Legendarias y epicas</div>
+        </div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+        <div class="ql-card" data-goto="objetos">
+          <div class="ql-title">Objetos</div>
+          <div class="ql-sub">Base de datos</div>
+        </div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+        <div class="ql-card" data-goto="razas">
+          <div class="ql-title">Razas</div>
+          <div class="ql-sub">Alianza y Horda</div>
+        </div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+        <div class="ql-card" data-goto="clases">
+          <div class="ql-title">Clases</div>
+          <div class="ql-sub">13 especializaciones</div>
+        </div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+        <div class="ql-card" data-goto="tropas">
+          <div class="ql-title">Tropas</div>
+          <div class="ql-sub">Unidades de combate</div>
+        </div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+        <div class="ql-card" data-goto="enemigos" style="border-color:#cc440033;">
+          <div class="ql-title" style="color:#cc8866">Enemigos</div>
+          <div class="ql-sub">5 grandes amenazas</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popular Items -->
+  <div class="container popular-section">
+    <div class="section-title">
+      Objetos Populares
+      <span class="badge-count">Top 15</span>
+    </div>
+
+    <div id="popular-tabs" class="filter-row mb-3">
+      <button class="tab-btn active" onclick="filterPopular(this,'all')">Todos</button>
+      <button class="tab-btn" onclick="filterPopular(this,'legendary')" style="border-color:#ff800044;color:#ff8000">Legendarios</button>
+      <button class="tab-btn" onclick="filterPopular(this,'epic')"      style="border-color:#a335ee44;color:#a335ee">Epicos</button>
+      <button class="tab-btn" onclick="filterPopular(this,'rare')"      style="border-color:#0070dd44;color:#0070dd">Raros</button>
+      <button class="tab-btn" onclick="filterPopular(this,'common')">Comunes</button>
+    </div>
+
+    <div id="popular-items-grid" class="row g-2"></div>
+  </div>
+
+  <!-- Guía de Misiones -->
+  <div class="container quest-guide-section">
+    <div class="section-title">
+      Guía de Misiones
+      <span class="badge-count">8 tipos</span>
+    </div>
+    <p class="section-subtitle">Aprende a identificar cada tipo de misión en World of Warcraft por su icono y color.</p>
+    <div id="quest-guide-grid" class="row g-3"></div>
+  </div>
+
+  <!-- Dashboard (visible solo si esta logueado) -->
+  <div id="dashboard-section" class="container dashboard-section d-none">
+    <hr class="divider mb-4" />
+    <div class="section-title">Mi Inventario</div>
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="search-box">
+          <p class="text-gold fw-bold mb-2">Buscar en Blizzard API</p>
+          <div class="input-group">
+            <input id="search-input" class="form-control" type="text"
+                   placeholder="Nombre del item..."
+                   onkeydown="if(event.key==='Enter') searchItem()" />
+            <button class="search-btn btn" onclick="searchItem()">Buscar</button>
+          </div>
+          <div id="search-results" class="mt-3"></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="inventory-card">
+          <p class="text-gold fw-bold mb-2">Favoritos guardados</p>
+          <div id="inventory-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     VIEW: MAPAS
+════════════════════════════════════════════════════════════ -->
+<section id="view-mapas" class="view-section">
+  <div class="page-header">
+    <div class="container">
+      <h1>Mapas de Azeroth</h1>
+      <p>Explora los continentes del mundo de Warcraft. Haz clic en uno para ver sus zonas.</p>
+    </div>
+  </div>
+  <div class="container pb-5">
+    <div id="continents-grid" class="row g-3"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     VIEW: ZONE DETAIL
+════════════════════════════════════════════════════════════ -->
+<section id="view-zone-detail" class="view-section">
+  <div class="container py-3">
+    <button class="back-btn mb-3" onclick="backToMapas()">Volver a Mapas</button>
+
+    <div class="detail-banner mb-4" id="zone-detail-banner">
+      <div class="detail-banner-text">
+        <h2 id="zone-detail-title"></h2>
+        <p class="text-gold mb-1 fw-bold" id="zone-detail-sub" style="position:relative;z-index:1"></p>
+        <p id="zone-detail-desc" style="color:rgba(255,255,255,.8);font-size:.9rem;max-width:600px;margin:0;position:relative;z-index:1"></p>
+      </div>
+    </div>
+
+    <div class="section-title">Zonas</div>
+    <div id="zones-grid" class="row g-3 pb-5"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     VIEW: HEROES
+════════════════════════════════════════════════════════════ -->
+<section id="view-heroes" class="view-section">
+  <div class="page-header">
+    <div class="container">
+      <h1>Heroes de Azeroth</h1>
+      <p>Los personajes mas iconicos que forjaron la historia del mundo de Warcraft.</p>
+    </div>
+  </div>
+  <div class="container pb-5">
+    <div id="heroes-grid" class="row g-3"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     VIEW: ARMAS
+════════════════════════════════════════════════════════════ -->
+<section id="view-armas" class="view-section">
+  <div class="page-header">
+    <div class="container">
+      <h1>Armas Legendarias</h1>
+      <p>Las armas mas poderosas e iconicas de la historia de World of Warcraft.</p>
+    </div>
+  </div>
+  <div class="container pb-5">
+    <div id="armas-tabs" class="filter-row mb-3">
+      <button class="tab-btn active" onclick="filterArmas(this,'all')">Todas</button>
+      <button class="tab-btn" onclick="filterArmas(this,'Classic')">Classic</button>
+      <button class="tab-btn" onclick="filterArmas(this,'TBC')">TBC</button>
+      <button class="tab-btn" onclick="filterArmas(this,'WotLK')">WotLK</button>
+      <button class="tab-btn" onclick="filterArmas(this,'Cataclysm')">Cataclysm</button>
+    </div>
+    <div id="armas-grid" class="row g-2"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     VIEW: OBJETOS
+════════════════════════════════════════════════════════════ -->
+<section id="view-objetos" class="view-section">
+  <div class="page-header">
+    <div class="container">
+      <h1>Base de Datos de Objetos</h1>
+      <p>Objetos iconicos y coleccionables del universo de World of Warcraft.</p>
+    </div>
+  </div>
+  <div class="container pb-5">
+    <div id="objetos-grid" class="row g-2"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     VIEW: RAZAS
+════════════════════════════════════════════════════════════ -->
+<section id="view-razas" class="view-section">
+  <div class="page-header">
+    <div class="container">
+      <h1>Razas de Azeroth</h1>
+      <p>Las razas jugables de ambas facciones, con sus habilidades raciales y lore.</p>
+    </div>
+  </div>
+  <div class="container pb-5">
+    <div class="faction-header alliance mb-3">Alianza</div>
+    <div id="alliance-races-grid" class="row g-3 mb-5"></div>
+
+    <div class="faction-header horde mb-3">Horda</div>
+    <div id="horde-races-grid" class="row g-3"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     VIEW: CLASES
+════════════════════════════════════════════════════════════ -->
+<section id="view-clases" class="view-section">
+  <div class="page-header">
+    <div class="container">
+      <h1>Clases de World of Warcraft</h1>
+      <p>Las 13 clases jugables con sus roles, habilidades iconicas y colores de clase.</p>
+    </div>
+  </div>
+  <div class="container pb-5">
+    <div id="classes-grid" class="row g-3"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     VIEW: TROPAS
+════════════════════════════════════════════════════════════ -->
+<section id="view-tropas" class="view-section">
+  <div class="page-header">
+    <div class="container">
+      <h1>Tropas de Azeroth</h1>
+      <p>Las unidades militares de la Alianza y la Horda, con estadisticas de combate.</p>
+    </div>
+  </div>
+  <div class="container pb-5">
+    <div class="faction-header alliance mb-3">Unidades de la Alianza</div>
+    <div id="alliance-troops-grid" class="row g-3 mb-5"></div>
+
+    <div class="faction-header horde mb-3">Unidades de la Horda</div>
+    <div id="horde-troops-grid" class="row g-3"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     VIEW: ENEMIGOS
+════════════════════════════════════════════════════════════ -->
+<section id="view-enemigos" class="view-section">
+  <div class="page-header">
+    <div class="container">
+      <h1>Tropas Enemigas</h1>
+      <p>Las grandes amenazas que Alianza y Horda enfrentan juntas: la Legion Ardiente, el Flagelo, los Antiguos Dioses y mas.</p>
+    </div>
+  </div>
+  <div class="container pb-5">
+    <div id="enemy-troops-container"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="row align-items-center gy-3">
+      <div class="col-md-4">
+        <div class="footer-brand">WoW Pro</div>
+        <div class="footer-copy">2024 — Base de Datos de Azeroth</div>
+        <div class="footer-disclaimer">
+          WoW Pro es un proyecto de fan no afiliado con Blizzard Entertainment.
+          World of Warcraft es marca registrada de Blizzard Entertainment, Inc.
+        </div>
+      </div>
+      <div class="col-md-4 text-md-center footer-links d-flex flex-wrap justify-content-md-center gap-3">
+        <a href="#" data-view="mapas">Mapas</a>
+        <a href="#" data-view="heroes">Heroes</a>
+        <a href="#" data-view="armas">Armas</a>
+        <a href="#" data-view="razas">Razas</a>
+        <a href="#" data-view="clases">Clases</a>
+        <a href="#" data-view="tropas">Tropas</a>
+        <a href="#" data-view="enemigos">Enemigos</a>
+      </div>
+      <div class="col-md-4 text-md-end">
+        <div class="footer-copy mb-1">Fuentes de datos</div>
+        <div class="footer-links d-flex flex-wrap gap-3 justify-content-md-end">
+          <a href="https://dev.battle.net" target="_blank" rel="noopener">Blizzard API</a>
+          <a href="https://www.wowhead.com" target="_blank" rel="noopener">Wowhead</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MODAL: LOGIN
+════════════════════════════════════════════════════════════ -->
+<div class="modal fade" id="loginModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Iniciar Sesion</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body d-flex flex-column gap-3 p-4">
+        <div id="login-error" class="alert alert-danger py-2 d-none modal-error"></div>
+        <input id="login-email"    class="form-control-dark w-100" type="email"    placeholder="Correo electronico" />
+        <input id="login-password" class="form-control-dark w-100" type="password" placeholder="Contrasena" />
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button class="btn-login" style="background:transparent;color:#888;border-color:#444;font-size:.78rem"
+                onclick="openRegisterModal()">No tienes cuenta?</button>
+        <button class="btn-login" onclick="handleLogin()">Entrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MODAL: REGISTRO
+════════════════════════════════════════════════════════════ -->
+<div class="modal fade" id="registerModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Crear Cuenta</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body d-flex flex-column gap-3 p-4">
+        <div id="reg-error" class="alert alert-danger py-2 d-none modal-error"></div>
+        <input id="reg-name"     class="form-control-dark w-100" type="text"     placeholder="Nombre de aventurero" />
+        <input id="reg-email"    class="form-control-dark w-100" type="email"    placeholder="Correo electronico" />
+        <input id="reg-password" class="form-control-dark w-100" type="password" placeholder="Contrasena (min. 6 caracteres)" />
+      </div>
+      <div class="modal-footer justify-content-between">
+        <button class="btn-login" style="background:transparent;color:#888;border-color:#444;font-size:.78rem"
+                onclick="openLoginModal()">Ya tienes cuenta?</button>
+        <button class="btn-login" onclick="handleRegister()">Registrarse</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
